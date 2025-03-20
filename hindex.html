@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>网页客服机器人</title>
+  <style>
+    body { font-family: Arial; max-width: 600px; margin: 20px auto; padding: 20px; }
+    #chatbox { border: 1px solid #ccc; height: 400px; overflow-y: auto; padding: 10px; }
+    input { width: 70%; padding: 8px; }
+    button { padding: 8px 15px; background: #007bff; color: white; border: none; }
+  </style>
+</head>
+<body>
+  <div id="chatbox"></div>
+  <input type="text" id="userInput" placeholder="输入您的问题...">
+  <button onclick="getAnswer()">发送</button>
+
+  <!-- 引入问答数据 -->
+  <script src="data.js"></script>
+  <script>
+    function getAnswer() {
+      const question = document.getElementById("userInput").value.toLowerCase().trim();
+      const chatbox = document.getElementById("chatbox");
+      let answer = qaData[question] || qaData["默认回复"];
+
+      // 在聊天框显示问答记录
+      chatbox.innerHTML += `<p><strong>您：</strong> ${question}</p>`;
+      chatbox.innerHTML += `<p><strong>机器人：</strong> ${answer}</p>`;
+      document.getElementById("userInput").value = ""; // 清空输入框
+
+      // 自动滚动到底部
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+
+    // 支持按回车键发送
+    document.getElementById("userInput").addEventListener("keypress", (e) => {
+      if (e.key === "Enter") getAnswer();
+    });
+  </script>
+</body>
+</html>
